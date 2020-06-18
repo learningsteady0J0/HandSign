@@ -1,0 +1,152 @@
+10 minutes/10 minutes_09.MP4
+10 minutes/10 minutes_19.MP4
+Seoul/Seoul_09.MP4
+Seoul/Seoul_19.MP4
+again/again_09.MP4
+again/again_19.MP4
+age/age_09.MP4
+age/age_19.MP4
+arrive/arrive_09.MP4
+arrive/arrive_19.MP4
+be friendly/be friendly_09.MP4
+be friendly/be friendly_19.MP4
+bi bim rice/bi bim rice_09.MP4
+bi bim rice/bi bim rice_19.MP4
+born/born_09.MP4
+born/born_19.MP4
+bus/bus_09.MP4
+bus/bus_19.MP4
+care/care_09.MP4
+care/care_19.MP4
+cell phone/cell phone_09.MP4
+cell phone/cell phone_19.MP4
+day/day_09.MP4
+day/day_19.MP4
+dinner/dinner_09.MP4
+dinner/dinner_19.MP4
+do effort/do effort_09.MP4
+do effort/do effort_19.MP4
+eat/eat_09.MP4
+eat/eat_19.MP4
+education/education_09.MP4
+education/education_19.MP4
+effort/effort_09.MP4
+effort/effort_19.MP4
+end/end_09.MP4
+end/end_19.MP4
+equal/equal_09.MP4
+equal/equal_19.MP4
+experience/experience_09.MP4
+experience/experience_19.MP4
+face/face_09.MP4
+face/face_19.MP4
+family/family_09.MP4
+family/family_19.MP4
+far/far_09.MP4
+far/far_19.MP4
+favor/favor_09.MP4
+favor/favor_19.MP4
+finally/finally_09.MP4
+finally/finally_19.MP4
+fine/fine_09.MP4
+fine/fine_19.MP4
+food/food_09.MP4
+food/food_19.MP4
+glad/glad_09.MP4
+glad/glad_19.MP4
+good/good_09.MP4
+good/good_19.MP4
+guide/guide_09.MP4
+guide/guide_19.MP4
+hi/hi_09.MP4
+hi/hi_19.MP4
+hobby/hobby_09.MP4
+hobby/hobby_19.MP4
+how many/how many_09.MP4
+how many/how many_19.MP4
+human/human_09.MP4
+human/human_19.MP4
+introduction/introduction_09.MP4
+introduction/introduction_19.MP4
+invite/invite_09.MP4
+invite/invite_19.MP4
+location/location_09.MP4
+location/location_19.MP4
+marry/marry_09.MP4
+marry/marry_19.MP4
+me/me_09.MP4
+me/me_19.MP4
+meat/meat_09.MP4
+meat/meat_19.MP4
+movie/movie_09.MP4
+movie/movie_19.MP4
+name/name_09.MP4
+name/name_19.MP4
+next/next_09.MP4
+next/next_19.MP4
+no/no_09.MP4
+no/no_19.MP4
+now/now_09.MP4
+now/now_19.MP4
+number/number_09.MP4
+number/number_19.MP4
+one hour/one hour_09.MP4
+one hour/one hour_19.MP4
+parents/parents_09.MP4
+parents/parents_19.MP4
+please?/please?_09.MP4
+please?/please?_19.MP4
+read/read_09.MP4
+read/read_19.MP4
+recieve/recieve_09.MP4
+recieve/recieve_19.MP4
+responsibility/responsibility_09.MP4
+responsibility/responsibility_19.MP4
+ride/ride_09.MP4
+ride/ride_19.MP4
+see/see_09.MP4
+see/see_19.MP4
+sister/sister_09.MP4
+sister/sister_19.MP4
+sorry/sorry_09.MP4
+sorry/sorry_19.MP4
+special/special_09.MP4
+special/special_19.MP4
+study/study_09.MP4
+study/study_19.MP4
+subway/subway_09.MP4
+subway/subway_19.MP4
+success/success_09.MP4
+success/success_19.MP4
+sweat/sweat_09.MP4
+sweat/sweat_19.MP4
+test/test_09.MP4
+test/test_19.MP4
+thank/thank_09.MP4
+thank/thank_19.MP4
+time/time_09.MP4
+time/time_19.MP4
+visit/visit_09.MP4
+visit/visit_19.MP4
+walk/walk_09.MP4
+walk/walk_19.MP4
+want/want_09.MP4
+want/want_19.MP4
+we/we_09.MP4
+we/we_19.MP4
+what/what_09.MP4
+what/what_19.MP4
+when/when_09.MP4
+when/when_19.MP4
+where/where_09.MP4
+where/where_19.MP4
+who/who_09.MP4
+who/who_19.MP4
+worried_about/worried_about_09.MP4
+worried_about/worried_about_19.MP4
+yesterday/yesterday_09.MP4
+yesterday/yesterday_19.MP4
+yet/yet_09.MP4
+yet/yet_19.MP4
+you/you_09.MP4
+you/you_19.MP4

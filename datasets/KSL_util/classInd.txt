@@ -27,7 +27,7 @@
 27 food
 28 glad
 29 good
-30 good, nice
+30 nice
 31 guide
 32 hi
 33 hobby

@@ -52,7 +52,7 @@ def convert_ucf101_csv_to_activitynet_json(label_csv_path, train_csv_path,
 if __name__ == '__main__':
     csv_dir_path = sys.argv[1]
 
-    for split_index in range(1, 4):
+    for split_index in range(1, 2):
         label_csv_path = os.path.join(csv_dir_path, 'classInd.txt')
         train_csv_path = os.path.join(csv_dir_path, 'trainlist0{}.txt'.format(split_index))
         val_csv_path = os.path.join(csv_dir_path, 'testlist0{}.txt'.format(split_index))
