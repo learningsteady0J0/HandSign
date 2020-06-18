@@ -102,7 +102,7 @@ if __name__ == '__main__':
             num_workers=opt.n_threads,
             pin_memory=True)
         
-        #################################### 여기 테스트 하기!!
+        #################################### 여기 테스트 하기!!!!
         
         train_logger = Logger(
             os.path.join(opt.result_path, opt.store_name + '_train.log'),
