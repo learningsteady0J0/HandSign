@@ -89,7 +89,7 @@ if __name__ == '__main__':
             #SaltImage(),
             #Gaussian_blur(),
             #SpatialElasticDisplacement(),
-            ToTensor(opt.norm_value), norm_method
+            ToTensor(opt.norm_value), norm_method  # ToTensor는 spatial_transforms에서 생성되어 있음.
         ])
         temporal_transform = TemporalRandomCrop(opt.sample_duration, opt.downsample)
         target_transform = ClassLabel() 

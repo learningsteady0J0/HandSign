@@ -55,9 +55,9 @@ class ToTensor(object):
         """
         if isinstance(pic, np.ndarray):
             # handle numpy array
-            img = torch.from_numpy(pic.transpose((2, 0, 1)))
+            img = torch.from_numpy(pic.transpose((2, 0, 1))) # (H x W x C)를 (C x H x W)로 변환.
             # backward compatibility
-            return img.float().div(self.norm_value)
+            return img.float().div(self.norm_value) 
 
         if accimage is not None and isinstance(pic, accimage.Image):
             nppic = np.zeros(
