@@ -1,77 +1,77 @@
-1 hi
-2 what
-3 meat
-4 bi bim rice
-5 glad
-6 hobby
-7 me
-8 movie
-9 face
-10 see
-11 name
-12 read
-13 thank
-14 equal
-15 sorry
-16 eat
-17 fine
-18 do effort
-19 next
-20 age
-21 again
-22 how many
-23 day
-24 good, nice
-25 when
-26 we
-27 subway
-28 be friendly
-29 bus
-30 ride
-31 cell phone
-32 where
-33 number
-34 location
-35 guide
-36 responsibility
-37 who
-38 arrive
-39 family
-40 time
-41 introduction
-42 recieve
-43 please?
-44 walk
-45 parents
-46 10 minutes
-47 sister
-48 study
-49 human
-50 now
-51 special
-52 yesterday
-53 education
-54 test
-55 end
-56 you
-57 worried_about
-58 marry
-59 effort
-60 no
-61 sweat
-62 yet
-63 finally
-64 born
-65 success
-66 favor
-67 Seoul
-68 dinner
-69 experience
-70 invite
-71 food
-72 want
-73 visit
-74 one hour
-75 far
-76 good
-77 care
+1 10 minutes
+2 Seoul
+3 again
+4 age
+5 arrive
+6 be friendly
+7 bi bim rice
+8 born
+9 bus
+10 care
+11 cell phone
+12 day
+13 dinner
+14 do effort
+15 eat
+16 education
+17 effort
+18 end
+19 equal
+20 experience
+21 face
+22 family
+23 far
+24 favor
+25 finally
+26 fine
+27 food
+28 glad
+29 good
+30 good, nice
+31 guide
+32 hi
+33 hobby
+34 how many
+35 human
+36 introduction
+37 invite
+38 location
+39 marry
+40 me
+41 meat
+42 movie
+43 name
+44 next
+45 no
+46 now
+47 number
+48 one hour
+49 parents
+50 please?
+51 read
+52 recieve
+53 responsibility
+54 ride
+55 see
+56 sister
+57 sorry
+58 special
+59 study
+60 subway
+61 success
+62 sweat
+63 test
+64 thank
+65 time
+66 visit
+67 walk
+68 want
+69 we
+70 what
+71 when
+72 where
+73 who
+74 worried_about
+75 yesterday
+76 yet
+77 you
