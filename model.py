@@ -71,16 +71,16 @@ def generate_model(opt):
                 sample_size=opt.sample_size,
                 sample_duration=opt.sample_duration)
     elif opt.model == 'resnetl':
-        assert opt.model_depth in [10]
+        assert opt.model_depth in [10] # 깊이는 10만 된다!
 
-        from models.resnetl import get_fine_tuning_parameters
+        from models.resnetl import get_fine_tuning_parameters # 전이학습을 위함.
 
         if opt.model_depth == 10:
             model = resnetl.resnetl10(
-                num_classes=opt.n_classes,
-                shortcut_type=opt.resnet_shortcut,
-                sample_size=opt.sample_size,
-                sample_duration=opt.sample_duration)
+                num_classes=opt.n_classes,  # 클래스 개수.
+                shortcut_type=opt.resnet_shortcut,  # 디폴트 값 : 'B'
+                sample_size=opt.sample_size, # 디폴트 값 : 112
+                sample_duration=opt.sample_duration) # 디폴트 값 : 16 , 입력 프레임
     elif opt.model == 'resnet':
         assert opt.model_depth in [10, 18, 34, 50, 101, 152, 200]
         from models.resnet import get_fine_tuning_parameters
@@ -130,13 +130,13 @@ def generate_model(opt):
 
 
     if not opt.no_cuda:
-        model = model.cuda()
-        model = nn.DataParallel(model, device_ids=None)
+        model = model.cuda() # 모델을 gpu에 올린다.
+        model = nn.DataParallel(model, device_ids=None) # 병렬처리를 위함인데, 안쓸 것 같음.
         pytorch_total_params = sum(p.numel() for p in model.parameters() if
-                               p.requires_grad)
-        print("Total number of trainable parameters: ", pytorch_total_params)
+                               p.requires_grad) # grad를 하는 파라미터들을 모두 더한다.
+        print("Total number of trainable parameters: ", pytorch_total_params) # 파라미터 값 출력
 
-        if opt.pretrain_path:
+        if opt.pretrain_path: # 전이학습.
             print('loading pretrained model {}'.format(opt.pretrain_path))
             pretrain = torch.load(opt.pretrain_path, map_location=torch.device('cpu'))
             # print(opt.arch)
@@ -163,10 +163,10 @@ def generate_model(opt):
                 model.module.fc = model.module.fc.cuda()
 
             model = modify_kernels(opt, model, opt.modality)
-        else:
+        else: # 전이학습이  아닐때
             model = modify_kernels(opt, model, opt.modality)
 
-        parameters = get_fine_tuning_parameters(model, opt.ft_portion)
+        parameters = get_fine_tuning_parameters(model, opt.ft_portion) # 전이학습할때만 적용 지금은 그냥 파라미터 그대로 반환됨.
         return model, parameters
     else:
         if opt.pretrain_path:
@@ -258,15 +258,18 @@ def _construct_rgbdepth_model(base_model):
 def _modify_first_conv_layer(base_model, new_kernel_size1, new_filter_num):
     modules = list(base_model.modules())
     first_conv_idx = list(filter(lambda x: isinstance(modules[x], nn.Conv3d),
-                                               list(range(len(modules)))))[0]
+                                               list(range(len(modules)))))[0] # 첫번째 conv의 idx를 가져옴.
     conv_layer = modules[first_conv_idx]
+    #conv_layer => resnetl10기준 Conv3d(3, 16, kernel_size=(7, 7, 7), stride=(1, 2, 2), padding=(3, 3, 3), bias=False)
     container = modules[first_conv_idx - 1]
+    # container는 모델 전체를 뜻함.
  
     new_conv = nn.Conv3d(new_filter_num, conv_layer.out_channels, kernel_size=(new_kernel_size1,7,7),
                          stride=(1,2,2), padding=(1,3,3), bias=False)
-    layer_name = list(container.state_dict().keys())[0][:-7]
+    layer_name = list(container.state_dict().keys())[0][:-7] # resnetl10 기준 'conv1'이 찍힘.
 
-    setattr(container, layer_name, new_conv)
+    setattr(container, layer_name, new_conv) # 기존의 conv1을 new_conv로 수정하는 함수 
+    # setattr(object, name, value) : object에 존재하는 속성의 값을 바꾸거나, 새로운 속성을 생성하여 값을 부여한다.
     return base_model
 
 def modify_kernels(opt, model, modality):
@@ -281,7 +284,7 @@ def modify_kernels(opt, model, modality):
         print("[INFO]: Converting the pretrained model to RGB+D init model")
         model = _construct_rgbdepth_model(model)
         print("[INFO]: Done. RGB-D model ready.")
-    modules = list(model.modules())
+    modules = list(model.modules()) 
     first_conv_idx = list(filter(lambda x: isinstance(modules[x], nn.Conv3d),
                                                list(range(len(modules)))))[0]
     #conv_layer = modules[first_conv_idx]

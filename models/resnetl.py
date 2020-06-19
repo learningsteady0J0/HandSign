@@ -217,3 +217,25 @@ def resnetl10(**kwargs):
     """
     model = ResNetL(BasicBlock, [1, 1, 1, 1], **kwargs)
     return model
+
+
+if __name__ == '__main__':
+    model = resnetl10( num_classes=77, shortcut_type='B', sample_size=112, sample_duration=16)
+    model = model.cuda()
+    model = nn.DataParallel(model, device_ids=None) # 병렬처리를 위함인데, 안쓸 것 같음.
+    pytorch_total_params = sum(p.numel() for p in model.parameters() if
+                           p.requires_grad) # grad를 하는 파라미터들을 모두 더한다.
+    print("Total number of trainable parameters: ", pytorch_total_params) # 파라미터 값 출력
+
+    modules = list(model.modules())
+
+    first_conv_idx = list(filter(lambda x: isinstance(modules[x], nn.Conv3d),
+                                               list(range(len(modules)))))[0] # 첫번째 conv의 idx를 가져옴.
+    print(first_conv_idx)
+    input()
+    conv_layer = modules[first_conv_idx]
+    container = modules[first_conv_idx - 1]
+    print(conv_layer)
+    input()
+    layer_name = list(container.state_dict().keys())[0][:-7]
+    print(layer_name)
