@@ -42,7 +42,7 @@ def video_loader(video_dir_path, frame_indices, image_loader): # 해당 영상 �
         image_path = os.path.join(video_dir_path, 'image_{:05d}.jpg'.format(i))
         if os.path.exists(image_path):
             video.append(image_loader(image_path))
-        else:
+        else:a
             return video
 
     return video # 각 이미지의 경로가 저장되어 있는 리스트를 반환.

@@ -5,11 +5,12 @@ import json
 import pandas as pd
 
 def convert_csv_to_dict(csv_path, subset): # 각 영상에 대한 정보를 데이터베이스 화 하는 함수. 데이터 베이스는 딕셔너리 임.
-    data = pd.read_csv(csv_path, delimiter=' ', header=None)
+    data = pd.read_csv(csv_path, delimiter='\n', header=None)
+    print(type(data))
     keys = []  # 영상들의 이름 리스트
     key_labels = []  # 영상의 클래스 리스트
     for i in range(data.shape[0]):
-        row = data.ix[i, :]
+        row = data.lioc[i, :]
         slash_rows = data.ix[i, 0].split('/') # 파일을 살펴보면 클래스 이름/영상이름.avi로 되어있음 이걸 '/'을 기준으로 split'
         class_name = slash_rows[0] # 클래스 이름
         basename = slash_rows[1].split('.')[0] # A.avi면 A가 basename.
@@ -28,10 +29,19 @@ def convert_csv_to_dict(csv_path, subset): # 각 영상에 대한 정보를 데�
     return database
 
 def load_labels(label_csv_path):
-    data = pd.read_csv(label_csv_path, delimiter=' ', header=None)
+    data = pd.read_csv(label_csv_path, delimiter='\n', header=None)
     labels = []
+    key = 0
+
     for i in range(data.shape[0]):
-        labels.append(data.ix[i, 1])
+        if key == 0:
+            labels.append(data[0][i][2:])
+        else:
+            labels.append(data[0][i][3:])
+        if data[0][i] == '9 bus':
+            key = 1
+    print(labels)
+    
     return labels
 
 def convert_ucf101_csv_to_activitynet_json(label_csv_path, train_csv_path, 

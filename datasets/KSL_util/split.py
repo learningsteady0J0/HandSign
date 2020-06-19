@@ -1,4 +1,5 @@
 import os
+import random
 
 base_path = '/workspace/JSW/hand/HandSign'
 folder_name = 'KSL-image'
@@ -21,11 +22,20 @@ while True:
 
 count = 0 
 for j in labels:
+    test = []
+    a = random.randrange(0,19)
+    while True:
+        b = random.randrange(0,19)
+        if a != b:
+            test.append(a)
+            test.append(b)
+            break
+
     for i in range(20):
 	    if not os.path.isdir('{}/{}/{}/{}_{:>02d}/'.format(base_path, folder_name, j, j, i)):
 	    	print('{}/{}/{}/{}_{:>02d}'.format(base_path,folder_name, j, j, i))
 	    	continue
-	    if (i+1) % 10 == 0 :
+	    if i in test : #djqtsms dlalwleh dlTrlEoansdp count sms rPthr ekfmrp skdha.
 	    	count += 1
 	    	f2.write('{}/{}_{:>02d}.MP4\n'.format(j,j,i))
 	    else:
