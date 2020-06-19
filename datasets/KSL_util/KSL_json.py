@@ -6,18 +6,18 @@ import pandas as pd
 
 def convert_csv_to_dict(csv_path, subset): # 각 영상에 대한 정보를 데이터베이스 화 하는 함수. 데이터 베이스는 딕셔너리 임.
     data = pd.read_csv(csv_path, delimiter='\n', header=None)
-    print(type(data))
+
     keys = []  # 영상들의 이름 리스트
     key_labels = []  # 영상의 클래스 리스트
     for i in range(data.shape[0]):
-        row = data.lioc[i, :]
-        slash_rows = data.ix[i, 0].split('/') # 파일을 살펴보면 클래스 이름/영상이름.avi로 되어있음 이걸 '/'을 기준으로 split'
+        row = data[0][i]
+        slash_rows = row.split('/') # 파일을 살펴보면 클래스 이름/영상이름.avi로 되어있음 이걸 '/'을 기준으로 split'
         class_name = slash_rows[0] # 클래스 이름
         basename = slash_rows[1].split('.')[0] # A.avi면 A가 basename.
         
         keys.append(basename)
         key_labels.append(class_name)
-        
+
     database = {}
     for i in range(len(keys)):
         key = keys[i]
@@ -40,7 +40,6 @@ def load_labels(label_csv_path):
             labels.append(data[0][i][3:])
         if data[0][i] == '9 bus':
             key = 1
-    print(labels)
     
     return labels
 
@@ -66,7 +65,7 @@ if __name__ == '__main__':
         label_csv_path = os.path.join(csv_dir_path, 'classInd.txt')
         train_csv_path = os.path.join(csv_dir_path, 'trainlist0{}.txt'.format(split_index))
         val_csv_path = os.path.join(csv_dir_path, 'testlist0{}.txt'.format(split_index))
-        dst_json_path = os.path.join(csv_dir_path, 'ucf101_0{}.json'.format(split_index))
+        dst_json_path = os.path.join(csv_dir_path, 'KSL.json'.format(split_index))
 
         convert_ucf101_csv_to_activitynet_json(label_csv_path, train_csv_path,
                                                val_csv_path, dst_json_path)

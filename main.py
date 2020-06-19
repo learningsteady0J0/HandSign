@@ -102,7 +102,7 @@ if __name__ == '__main__':
             num_workers=opt.n_threads,
             pin_memory=True)
         
-        #################################### 여기 테스트 하기!!!!!!
+        #################################### 여기 테스트 complete
         
         train_logger = Logger(
             os.path.join(opt.result_path, opt.store_name + '_train.log'),
@@ -114,7 +114,7 @@ if __name__ == '__main__':
         if opt.nesterov:
             dampening = 0
         else:
-            dampening = opt.dampening
+            dampening = opt.dampening  # decay value
         optimizer = optim.SGD(
             parameters,
             lr=opt.learning_rate,
@@ -152,6 +152,8 @@ if __name__ == '__main__':
         best_prec1 = checkpoint['best_prec1']
         opt.begin_epoch = checkpoint['epoch']
         model.load_state_dict(checkpoint['state_dict'])
+
+    ##################################################### it is testing
 
 
     print('run')
