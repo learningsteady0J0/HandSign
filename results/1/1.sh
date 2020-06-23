@@ -1,0 +1,18 @@
+python3 main.py \
+    --root_path /workspace/JSW/hand/HandSign/ \
+	--video_path KSL-image/ \
+	--annotation_path datasets/KSL_util/KSL.json \
+	--result_path results/1 \
+	--dataset KSL    \
+    --model resnetl  \
+    --model_depth 10  \
+    --store_name 1 \
+    --n_classes 77 \
+    --batch_size 32 \
+    --n_threads 0 \
+    --learning_rate 0.1 \
+    --n_epochs 190 \
+    --n_val_samples 1 \
+    --sample_duration 64 \
+    --train_crop center \
+    --scale_step 0.89089641525

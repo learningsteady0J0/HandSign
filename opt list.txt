@@ -1,0 +1,53 @@
+** store_name = '1'
+
+** model = 'resnetl'
+
+** model_depth = 10
+
+** n_classes = 77
+
+** video_path = '/workspace/JSW/hand/HandSign/KSL-image/'
+
+** annotation_path = '/workspace/JSW/hand/HandSign/datasets/KSL_util/KSL.json'
+
+** result_path = '/workspace/JSW/hand/HandSign/results'
+
+** no_mean_norm = True  
+
+** std_norm = True
+
+** batch_size = 128 
+
+** n_threads = 16
+
+** learning_rate = 0.04
+
+** n_epochs = 250
+
+** dataset = 'KSL'
+
+* resnet_shortcut = 'B'
+
+* sample_size = 112
+
+* sample_duration = 16
+
+* momentum = 0.9
+
+* weight_decay = 1e-3
+
+* lr_patience = 10
+
+* resume_path = Flase
+
+* begin_epoch = 1
+
+* n_val_samples = 3
+
+test = False  
+no_mean_norm = False
+std_norm = False
+downsample = 1
+manual_seed = 1
+modality = 'RGB'
+ft_portion = 'complete'

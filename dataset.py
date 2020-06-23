@@ -1,35 +1,35 @@
 from datasets.KSL import KSL
 
-def get_training_set(video_path, annotation_path, spatial_transform, temporal_transform,
-                     target_transform, sample_duration):
-    #assert opt.dataset in ['KSL']
+def get_training_set(opt, spatial_transform, temporal_transform,
+                     target_transform):
+    assert opt.dataset in ['KSL']
 
-    #if opt.dataset == 'KSL':
-    training_data = KSL(
-        video_path,
-        annotation_path,
-        'training',
-        spatial_transform=spatial_transform,
-        temporal_transform=temporal_transform,
-        target_transform=target_transform,
-        sample_duration=sample_duration)
+    if opt.dataset == 'KSL':
+        training_data = KSL(
+            opt.video_path,
+            opt.annotation_path,
+            'training',
+            spatial_transform=spatial_transform,
+            temporal_transform=temporal_transform,
+            target_transform=target_transform,
+            sample_duration=opt.sample_duration)
 
     return training_data
 
-def get_validation_set(video_path, annotation_path, spatial_transform, temporal_transform,
-                       target_transform, sample_duration):
-    #assert opt.dataset in ['KSL']
+def get_validation_set(opt, spatial_transform, temporal_transform,
+                       target_transform):
+    assert opt.dataset in ['KSL']
 
-    #if opt.dataset == 'KSL':
-    validation_data = KSL(
-        opt.video_path,
-        opt.annotation_path,
-        'validation',
-        opt.n_val_samples,
-        spatial_transform,
-        temporal_transform,
-        target_transform,
-        sample_duration=sample_duration)
+    if opt.dataset == 'KSL':
+        validation_data = KSL(
+            opt.video_path,
+            opt.annotation_path,
+            'validation',
+            opt.n_val_samples,
+            spatial_transform,
+            temporal_transform,
+            target_transform,
+            sample_duration=opt.sample_duration)
 
     return validation_data
 

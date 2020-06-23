@@ -3,15 +3,38 @@ from torch.autograd import Variable
 import time
 import os
 import sys
+import cv2
 
 from utils import *
+from torchvision.utils import save_image
+
+def extract_inputimg(opt, idx, data):
+    root_path = os.path.join(opt.result_path, '{}_input_img_'.format(idx))
+    #print(data.shape) # (32 , 3, 64, 112, 112)   batchsize,  cheenl,  input frame, weith, heigh
+    for i in range(data.shape[0]):
+        if i % 5 == 0 :
+          continue
+        out_path = os.path.join(root_path, '{}'.format(i))
+        if not os.path.exists(out_path): 
+            os.makedirs(out_path)
+        for j in range(data.shape[2]):
+            ab = []
+            for k in range(3):
+              #ab.append(data[i][k][j].numpy())
+              ab.append(data[i][k][j].unsqueeze(0))
+            #print(ab[0].shape)
+            #imgmg = cv2.merge((ab[0],ab[1],ab[2]))
+            #cv2.imwrite(out_path+'/{}.png'.format(j), b)
+            save_image(ab[0], out_path+'/{}_1.png'.format(j))
+ 
 
 
 def train_epoch(epoch, data_loader, model, criterion, optimizer, opt,
-                epoch_logger, batch_logger):
+                epoch_logger, batch_logger, scheduler):
     print('train at epoch {}'.format(epoch))
 
     model.train()
+    model.to('cuda')
 
     batch_time = AverageMeter()
     data_time = AverageMeter()
@@ -20,14 +43,16 @@ def train_epoch(epoch, data_loader, model, criterion, optimizer, opt,
     top5 = AverageMeter()
 
     end_time = time.time()
+    scheduler.step()
     for i, (inputs, targets) in enumerate(data_loader):
+        if i == 0 and epoch == 1 :
+            extract_inputimg(opt, i, inputs)
         data_time.update(time.time() - end_time)
-
         if not opt.no_cuda:
             targets = targets.cuda()
-        inputs = Variable(inputs)
-        targets = Variable(targets)
-        outputs = model(inputs)
+        inputs = Variable(inputs).cuda()  
+        targets = Variable(targets).cuda()
+        outputs = model(inputs) 
         loss = criterion(outputs, targets)
 
         losses.update(loss.data, inputs.size(0))

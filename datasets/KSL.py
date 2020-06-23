@@ -119,19 +119,19 @@ def make_dataset(root_path, annotation_path, subset, n_samples_for_each_video,
             sample['label'] = -1
 
         if n_samples_for_each_video == 1: # 이것만 생각 하기.
-            sample['frame_indices'] = list(range(1, n_frames + 1))
+            sample['frame_indices'] = list(range(1, n_frames + 1)) # num of input frame
             dataset.append(sample)
         else:
             if n_samples_for_each_video > 1:
                 step = max(1,
-                           math.ceil((n_frames - 1 - sample_duration) /
-                                     (n_samples_for_each_video - 1)))
+                           math.ceil((n_frames - 1 - sample_duration) /  # sample_duration => input frame
+                                     (n_samples_for_each_video - 1)))    # ex)   (50 - 1 - 16) / (3 - 1) = 16.5 ceil => 17 
             else:
                 step = sample_duration
             for j in range(1, n_frames, step):
                 sample_j = copy.deepcopy(sample)
                 sample_j['frame_indices'] = list(
-                    range(j, min(n_frames + 1, j + sample_duration)))
+                    range(j, min(n_frames + 1, j + sample_duration)))  # rnrksquffh frame dmf sksnsek. 
                 dataset.append(sample_j)
 
     return dataset, idx_to_class

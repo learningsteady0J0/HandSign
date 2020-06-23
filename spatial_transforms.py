@@ -300,13 +300,13 @@ class MultiScaleCornerCrop(object):
         image_height = img.size[1]
 
         if self.crop_position == 'c':
-            center_x = image_width // 2
-            center_y = image_height // 2
-            box_half = crop_size // 2
-            x1 = center_x - box_half
-            y1 = center_y - box_half
-            x2 = center_x + box_half
-            y2 = center_y + box_half
+            center_x = image_width // 2   # 112 // 2  56
+            center_y = image_height // 2  # 112 // 2  56
+            box_half = crop_size // 2     #  (112 * random) // 2  26
+            x1 = center_x - box_half      #  56 - 26
+            y1 = center_y - box_half      #  56 - 26
+            x2 = center_x + box_half      #  56 + 26
+            y2 = center_y + box_half      #  56 + 26
         elif self.crop_position == 'tl':
             x1 = 0
             y1 = 0
@@ -465,8 +465,6 @@ class RandomResize(object):
 
     def randomize_parameters(self):
         self.resize_const = random.uniform(0.9, 1.1)
-
-
 
 class Gaussian_blur(object):
 

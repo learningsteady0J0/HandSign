@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+import shutil
 import numpy as np
 import torch
 from torch import nn
@@ -37,6 +38,7 @@ if __name__ == '__main__':
     opt.scales = [opt.initial_scale] # multiscale을 위한 초기 값.
     for i in range(1, opt.n_scales): 
         opt.scales.append(opt.scales[-1] * opt.scale_step) # multiscale을 위한 값들 저장.
+    print(opt.scales)
     opt.arch = '{}'.format(opt.model)
     opt.mean = get_mean(opt.norm_value, dataset=opt.mean_dataset)
     opt.std = get_std(opt.norm_value)
@@ -78,11 +80,13 @@ if __name__ == '__main__':
             crop_method = MultiScaleCornerCrop(opt.scales, opt.sample_size)
         elif opt.train_crop == 'center':
             crop_method = MultiScaleCornerCrop(
-                opt.scales, opt.sample_size, crop_positions=['c'])
+                opt.scales, opt.sample_size, crop_positions=['c','c','c','c','c'])
         spatial_transform = Compose([
             #RandomHorizontalFlip(),
             #RandomRotate(),
             #RandomResize(),
+            Scale(opt.sample_size+20),
+            #CenterCrop(opt.sample_size),
             crop_method,
             #MultiplyValues(),
             #Dropout(),
@@ -102,8 +106,6 @@ if __name__ == '__main__':
             num_workers=opt.n_threads,
             pin_memory=True)
         
-        #################################### 여기 테스트 complete
-        
         train_logger = Logger(
             os.path.join(opt.result_path, opt.store_name + '_train.log'),
             ['epoch', 'loss', 'prec1', 'prec5', 'lr'])
@@ -114,7 +116,7 @@ if __name__ == '__main__':
         if opt.nesterov:
             dampening = 0
         else:
-            dampening = opt.dampening  # decay value
+            dampening = opt.dampening  
         optimizer = optim.SGD(
             parameters,
             lr=opt.learning_rate,
@@ -122,8 +124,8 @@ if __name__ == '__main__':
             dampening=dampening,
             weight_decay=opt.weight_decay,
             nesterov=opt.nesterov)
-        scheduler = lr_scheduler.ReduceLROnPlateau(
-            optimizer, 'min', patience=opt.lr_patience)
+        scheduler = lr_scheduler.StepLR(
+            optimizer, step_size = (opt.n_epochs // 5), gamma=0.1)
     if not opt.no_val: # dataset 설정.
         spatial_transform = Compose([
             Scale(opt.sample_size),
@@ -152,17 +154,17 @@ if __name__ == '__main__':
         best_prec1 = checkpoint['best_prec1']
         opt.begin_epoch = checkpoint['epoch']
         model.load_state_dict(checkpoint['state_dict'])
-
-    ##################################################### it is testing
-
+        
+    if opt.bash_path:
+        shutil.copy('%s/%s' % (opt.root_path, opt.bash_path) , '%s/bashfile.sh' % (opt.result_path) )
 
     print('run')
     for i in range(opt.begin_epoch, opt.n_epochs + 1):
     # for i in range(opt.begin_epoch, opt.begin_epoch + 10):
         if not opt.no_train:
-            adjust_learning_rate(optimizer, i, opt) #30epoch 마다 learning rate를 0.1 씩 낮춘다.
+            #adjust_learning_rate(optimizer, i, opt) #30epoch 마다 learning rate를 0.1 씩 낮춘다.
             train_epoch(i, train_loader, model, criterion, optimizer, opt,
-                        train_logger, train_batch_logger)
+                        train_logger, train_batch_logger, scheduler)
             state = {
                 'epoch': i,
                 'arch': opt.arch,
@@ -206,7 +208,3 @@ if __name__ == '__main__':
             num_workers=opt.n_threads,
             pin_memory=True)
         test.test(test_loader, model, opt, test_data.class_names)
-
-
-
-

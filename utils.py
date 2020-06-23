@@ -166,7 +166,10 @@ def save_checkpoint(state, is_best, opt):
     torch.save(state, '%s/%s_checkpoint.pth' % (opt.result_path, opt.store_name))
     if is_best:
         shutil.copyfile('%s/%s_checkpoint.pth' % (opt.result_path, opt.store_name),'%s/%s_best.pth' % (opt.result_path, opt.store_name))
-
+        f = open('%s/%s_best.txt' % (opt.result_path, opt.store_name), 'w')
+        f.write(state['arch'],'\n')
+        f.write(str(state['epoch']),'\n')
+        f.write(str(state['best_prec1']),'\n')
 
 def adjust_learning_rate(optimizer, epoch, opt):
     """Sets the learning rate to the initial LR decayed by 10 every 30 epochs"""
