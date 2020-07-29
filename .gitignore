@@ -2,6 +2,7 @@ venv/
 .idea/
 KSL-image/
 KSL-image_split/
+results/
 
 *.pyc
 

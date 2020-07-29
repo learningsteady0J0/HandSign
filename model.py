@@ -4,6 +4,8 @@ from torch import nn
 from models import c3d, squeezenet, mobilenet, shufflenet, mobilenetv2, shufflenetv2, resnext, resnet, resnetl
 import pdb
 
+from apex.parallel import DistributedDataParallel as DDP
+
 def generate_model(opt): 
     assert opt.model in ['c3d', 'squeezenet', 'mobilenet', 'resnext', 'resnet', 'resnetl',
                          'shufflenet', 'mobilenetv2', 'shufflenetv2']
@@ -45,7 +47,20 @@ def generate_model(opt):
                 sample_duration=opt.sample_duration)       
 
     if not opt.no_cuda:
-        model = model.cuda() # 모델을 gpu에 올린다.
+
+
+        if opt.distributed:
+            opt.gpus = opt.local_rank
+
+            torch.cuda.set_device(opt.gpus)
+            torch.distributed.init_process_group(backend='nccl',
+                                                 init_method='env://')
+            world_size = torch.distributed.get_world_size()
+
+            model.cuda(opt.gpus)
+            model = DDP(model, delay_allreduce=True)
+        else:
+            model = model.cuda()
 
         #model = nn.DataParallel(model, device_ids=None) # 병렬처리를 위함인데, 안쓸 것 같음.
         pytorch_total_params = sum(p.numel() for p in model.parameters() if

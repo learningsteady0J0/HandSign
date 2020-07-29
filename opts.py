@@ -71,6 +71,10 @@ def parse_opts():
     parser.add_argument('--manual_seed', default=1, type=int, help='Manually set random seed')
     parser.add_argument('--train_validate', action='store_true', help='If true, test is performed.')
     parser.set_defaults(train_validate=False)
+    parser.add_argument('--local_rank', default=1, type=int, help='')
+    parser.add_argument('--gpus', default='0,1,2,3', type=str, help='GPU id to use.')
+    parser.add_argument('--distributed', action='store_true', help='If true, use distribute')
+    parser.set_defaults(distributed=True)
     args = parser.parse_args()
 
     return args
@@ -205,6 +209,11 @@ def parse_opts_online():
     parser.add_argument('--ft_portion', default='complete', type=str, help='The portion of the model to apply fine tuning, either complete or last_layer') # 파인 튜닝을 적용한 부분 complete는 모든 레이어  last_layer는 마지막 분류 레이어만 파인 튜닝.
     parser.add_argument('--groups', default=3, type=int, help='The number of groups at group convolutions at conv layers')
     parser.add_argument('--downsample', default=1, type=int, help='Downsampling. Selecting 1 frame out of N')
+    #parser.add_argument('--local_rank', default=0, type=int, help='')
+    parser.add_argument('--gpus', default='0', type=str, help='GPU id to use.')
+    parser.add_argument('--distributed', action='store_true', help='If true, use distribute')
+    parser.add_argument('--test00', action='store_true', help='If true, use distribute')
+    parser.set_defaults(distributed=True)
     
     args = parser.parse_args()
 

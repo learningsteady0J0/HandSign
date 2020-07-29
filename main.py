@@ -7,6 +7,9 @@ import torch
 from torch import nn
 from torch import optim
 from torch.optim import lr_scheduler
+import torch.utils.data.distributed
+
+from apex.parallel import DistributedDataParallel as DDP
 
 from opts import parse_opts
 from model import generate_model
@@ -80,7 +83,7 @@ if __name__ == '__main__':
             crop_method = MultiScaleCornerCrop(opt.scales, opt.sample_size)
         elif opt.train_crop == 'center':
             crop_method = MultiScaleCornerCrop(
-                opt.scales, opt.sample_size, crop_positions=['c','c','c','c','c'])
+            opt.scales, opt.sample_size, crop_positions=['c','c','c','c','c'])
         spatial_transform = Compose([
             #RandomHorizontalFlip(),
             #RandomRotate(),
@@ -99,12 +102,19 @@ if __name__ == '__main__':
         target_transform = ClassLabel() 
         training_data = get_training_set(opt, spatial_transform,
                                          temporal_transform, target_transform)
+
+        if opt.distributed:
+            train_sampler = torch.utils.data.distributed.DistributedSampler(training_data)
+        else:
+            train_sampler = None
+
         train_loader = torch.utils.data.DataLoader(
             training_data,
             batch_size=opt.batch_size,
-            shuffle=True,
+            shuffle=(train_sampler is None),
             num_workers=opt.n_threads,
-            pin_memory=True)
+            sampler=train_sampler,)
+            #pin_memory=True
         
         train_logger = Logger(
             os.path.join(opt.result_path, opt.store_name + '_train.log'),
@@ -137,12 +147,19 @@ if __name__ == '__main__':
         target_transform = ClassLabel()
         validation_data = get_validation_set(
             opt, spatial_transform, temporal_transform, target_transform)
+
+        if opt.distributed:
+            val_sampler = torch.utils.data.distributed.DistributedSampler(validation_data)
+        else:
+            val_sampler = None
+
         val_loader = torch.utils.data.DataLoader(
             validation_data,
             batch_size=8,
             shuffle=False,
             num_workers=opt.n_threads,
-            pin_memory=True)
+            sampler=val_sampler,)
+            #pin_memory=True)
         val_logger = Logger(
             os.path.join(opt.result_path, opt.store_name + '_val.log'), ['epoch', 'loss', 'prec1', 'prec5'])
 
@@ -159,14 +176,15 @@ if __name__ == '__main__':
         shutil.copy('%s/%s' % (opt.root_path, opt.bash_path) , '%s/bashfile.sh' % (opt.result_path) )
 
     print('run')
-    for i in range(opt.begin_epoch, opt.n_epochs + 1):
+    for epoch in range(opt.begin_epoch, opt.n_epochs + 1):
     # for i in range(opt.begin_epoch, opt.begin_epoch + 10):
         if not opt.no_train:
             #adjust_learning_rate(optimizer, i, opt) #30epoch 마다 learning rate를 0.1 씩 낮춘다.
-            train_epoch(i, train_loader, model, criterion, optimizer, opt,
+            train_sampler.set_epoch(epoch)
+            train_epoch(epoch, train_loader, model, criterion, optimizer, opt,
                         train_logger, train_batch_logger, scheduler)
             state = {
-                'epoch': i,
+                'epoch': epoch,
                 'arch': opt.arch,
                 'state_dict': model.state_dict(),
                 'optimizer': optimizer.state_dict(),
@@ -175,12 +193,13 @@ if __name__ == '__main__':
             save_checkpoint(state, False, opt)
             
         if not opt.no_val:
-            validation_loss, prec1 = val_epoch(i, val_loader, model, criterion, opt,
+            val_sampler.set_epoch(epoch)
+            validation_loss, prec1 = val_epoch(epoch, val_loader, model, criterion, opt,
                                         val_logger)
             is_best = prec1 > best_prec1
             best_prec1 = max(prec1, best_prec1)
             state = {
-                'epoch': i,
+                'epoch': epoch,
                 'arch': opt.arch,
                 'state_dict': model.state_dict(),
                 'optimizer': optimizer.state_dict(),
