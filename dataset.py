@@ -1,8 +1,11 @@
 from datasets.KSL import KSL
+from datasets.jester import Jester
+from datasets.SLR import SLR
+from datasets.KETI import KETI
 
 def get_training_set(opt, spatial_transform, temporal_transform,
                      target_transform):
-    assert opt.dataset in ['KSL']
+    assert opt.dataset in ['KSL', 'jester', 'SLR', 'KETI']
 
     if opt.dataset == 'KSL':
         training_data = KSL(
@@ -14,14 +17,67 @@ def get_training_set(opt, spatial_transform, temporal_transform,
             target_transform=target_transform,
             sample_duration=opt.sample_duration)
 
+    elif opt.dataset == 'jester':
+        training_data = Jester(
+            opt.video_path,
+            opt.annotation_path,
+            'training',
+            spatial_transform=spatial_transform,
+            temporal_transform=temporal_transform,
+            target_transform=target_transform,
+            sample_duration=opt.sample_duration)       
+
+    elif opt.dataset == 'SLR':
+        training_data = SLR(
+            opt.video_path,
+            opt.annotation_path,
+            'training',
+            spatial_transform=spatial_transform,
+            temporal_transform=temporal_transform,
+            target_transform=target_transform,
+            sample_duration=opt.sample_duration)  
+    elif opt.dataset == 'KETI':
+        training_data = KETI(
+            opt.video_path,
+            opt.annotation_path,
+            'training',
+            spatial_transform=spatial_transform,
+            temporal_transform=temporal_transform,
+            target_transform=target_transform,
+            sample_duration=opt.sample_duration)          
+
     return training_data
+
+
 
 def get_validation_set(opt, spatial_transform, temporal_transform,
                        target_transform):
-    assert opt.dataset in ['KSL']
+    assert opt.dataset in ['KSL', 'jester', 'SLR', 'KETI']
 
     if opt.dataset == 'KSL':
         validation_data = KSL(
+            opt.video_path,
+            opt.annotation_path,
+            'validation',
+            opt.n_val_samples,
+            spatial_transform,
+            temporal_transform,
+            target_transform,
+            sample_duration=opt.sample_duration)
+
+    elif opt.dataset == 'jester':
+        validation_data = Jester(
+            opt.video_path,
+            opt.annotation_path,
+            'validation',
+            opt.n_val_samples,
+            spatial_transform,
+            temporal_transform,
+            target_transform,
+            sample_duration=opt.sample_duration)
+
+    elif opt.dataset == 'KETI':
+        validation_data = KETI(
             opt.video_path,
             opt.annotation_path,
             'validation',

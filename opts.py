@@ -74,7 +74,7 @@ def parse_opts():
     parser.add_argument('--local_rank', default=1, type=int, help='')
     parser.add_argument('--gpus', default='0,1,2,3', type=str, help='GPU id to use.')
     parser.add_argument('--distributed', action='store_true', help='If true, use distribute')
-    parser.set_defaults(distributed=True)
+    parser.set_defaults(distributed=False)
     args = parser.parse_args()
 
     return args

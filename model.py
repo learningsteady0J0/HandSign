@@ -48,18 +48,11 @@ def generate_model(opt):
 
     if not opt.no_cuda:
 
-
-        if opt.distributed:
-            opt.gpus = opt.local_rank
-
-            torch.cuda.set_device(opt.gpus)
-            torch.distributed.init_process_group(backend='nccl',
-                                                 init_method='env://')
-            world_size = torch.distributed.get_world_size()
-
-            model.cuda(opt.gpus)
-            model = DDP(model, delay_allreduce=True)
+        if opt.gpus == '0':
+            model = model.cuda()
         else:
+            opt.gpus = opt.local_rank
+            torch.cuda.set_device(opt.gpus)
             model = model.cuda()
 
         #model = nn.DataParallel(model, device_ids=None) # 병렬처리를 위함인데, 안쓸 것 같음.

@@ -1,0 +1,21 @@
+python3 -m torch.distributed.launch --nproc_per_node=3 \
+    main.py \
+    --gpus 1,2,3 \
+	--result_path results/3 \
+    --bash_path 3.sh \
+    --root_path /workspace/JSW/hand/HandSign/ \
+	--video_path KSL-image/ \
+	--annotation_path datasets/KSL_util/KSL.json \
+	--dataset KSL    \
+    --model resnext  \
+    --model_depth 50  \
+    --store_name 10 \
+    --n_classes 77 \
+    --batch_size 1 \
+    --n_threads  0 \
+    --learning_rate 0.1 \
+    --n_epochs 190 \
+    --n_val_samples 1 \
+    --sample_duration 64 \
+    --train_crop center \
+    --scale_step 0.89089641525

@@ -135,7 +135,7 @@ if __name__ == '__main__':
             weight_decay=opt.weight_decay,
             nesterov=opt.nesterov)
         scheduler = lr_scheduler.StepLR(
-            optimizer, step_size = (opt.n_epochs // 5), gamma=0.1)
+            optimizer, step_size = (opt.n_epochs // 7), gamma=0.1)
     if not opt.no_val: # dataset 설정.
         spatial_transform = Compose([
             Scale(opt.sample_size),
@@ -155,7 +155,7 @@ if __name__ == '__main__':
 
         val_loader = torch.utils.data.DataLoader(
             validation_data,
-            batch_size=8,
+            batch_size=32,
             shuffle=False,
             num_workers=opt.n_threads,
             sampler=val_sampler,)
@@ -180,7 +180,8 @@ if __name__ == '__main__':
     # for i in range(opt.begin_epoch, opt.begin_epoch + 10):
         if not opt.no_train:
             #adjust_learning_rate(optimizer, i, opt) #30epoch 마다 learning rate를 0.1 씩 낮춘다.
-            train_sampler.set_epoch(epoch)
+            if train_sampler: # if you use distributed, it is used 
+                train_sampler.set_epoch(epoch)
             train_epoch(epoch, train_loader, model, criterion, optimizer, opt,
                         train_logger, train_batch_logger, scheduler)
             state = {
@@ -193,7 +194,8 @@ if __name__ == '__main__':
             save_checkpoint(state, False, opt)
             
         if not opt.no_val:
-            val_sampler.set_epoch(epoch)
+            if val_sampler:
+                val_sampler.set_epoch(epoch)
             validation_loss, prec1 = val_epoch(epoch, val_loader, model, criterion, opt,
                                         val_logger)
             is_best = prec1 > best_prec1

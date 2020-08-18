@@ -2,7 +2,11 @@ venv/
 .idea/
 KSL-image/
 KSL-image_split/
+20bn-jester-v1/
+KETI_jpg/
 results/
+SKIP_KETI_SL_jpg/
+SLR/
 
 *.pyc
 

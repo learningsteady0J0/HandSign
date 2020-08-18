@@ -1,0 +1,20 @@
+python3 main.py \
+    --gpus 0,1 \
+    --result_path results/2 \
+    --bash_path jester.sh \
+    --root_path /workspace/3D/pytorch/HandSign/ \
+    --video_path 20bn-jester-v1/ \
+    --annotation_path datasets/annotation_Jester/jester.json \
+    --dataset jester    \
+    --model resnetl  \
+    --model_depth 10  \
+    --store_name 10 \
+    --n_classes 27 \
+    --batch_size 128 \
+    --n_threads  0 \
+    --learning_rate 0.1 \
+    --n_epochs 70 \
+    --n_val_samples 1 \
+    --sample_duration 32 \
+    --train_crop center \
+    --scale_step 0.89089641525

@@ -10,12 +10,12 @@ python3 -m torch.distributed.launch --nproc_per_node=3 \
     --model resnext  \
     --model_depth 50  \
     --store_name 10 \
-    --n_classes 77 \
-    --batch_size 1 \
+    --n_classes 27 \
+    --batch_size 32 \
     --n_threads  0 \
     --learning_rate 0.1 \
-    --n_epochs 190 \
+    --n_epochs 1 \
     --n_val_samples 1 \
-    --sample_duration 64 \
+    --sample_duration 32 \
     --train_crop center \
     --scale_step 0.89089641525
